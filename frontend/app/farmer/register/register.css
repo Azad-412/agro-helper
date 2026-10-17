@@ -1,0 +1,1179 @@
+/* =========================================================
+   AGRO HELPER - REGISTRATION TYPE PAGE
+
+   This stylesheet is scoped only to:
+   /farmer/register
+
+   Therefore, it will not interfere with the Home Page.
+   ========================================================= */
+
+
+/* =========================================================
+   1. PAGE
+   ========================================================= */
+
+.page {
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  background: #ffffff;
+
+  color: #14251b;
+}
+
+
+/* =========================================================
+   2. NAVBAR
+   ========================================================= */
+
+.navbar {
+  width: 100%;
+
+  position: relative;
+  z-index: 50;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e8eee9;
+
+  box-shadow:
+    0 4px 14px rgba(20, 80, 38, 0.05);
+}
+
+
+.navbarInner {
+  width: min(1480px, calc(100% - 40px));
+
+  min-height: 76px;
+
+  margin-inline: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+
+.logoLink {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+}
+
+
+.logo {
+  width: 185px;
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+.navLinks {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+}
+
+
+.navItem {
+  padding: 10px 9px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  border-radius: 9px;
+
+  color: #28372f;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  font-size: 13px;
+}
+
+
+.navItem:first-child {
+  background: #edf9ef;
+
+  color: #078a3a;
+}
+
+
+.navItem:hover {
+  background: #eff8f1;
+
+  color: #078a3a;
+}
+
+
+.navActions {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+
+.languageButton,
+.loginButton,
+.registerButton {
+  min-height: 42px;
+
+  padding-inline: 16px;
+
+  border-radius: 9px;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+
+.languageButton {
+  border: 0;
+
+  background: #f4f6f5;
+
+  color: #29362f;
+}
+
+
+.loginButton {
+  border: 1px solid #078b3b;
+
+  background: #ffffff;
+
+  color: #078338;
+}
+
+
+.registerButton {
+  border: 1px solid #078b3b;
+
+  background: #078b3b;
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   3. MAIN REGISTRATION AREA
+   ========================================================= */
+
+.registrationArea {
+  min-height: 650px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 26px 0 22px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #effaf1 0%,
+      #f5fbf3 44%,
+      #edf9ef 100%
+    );
+}
+
+
+/* Decorative blurred circles */
+.backgroundDecorationOne {
+  width: 390px;
+  height: 390px;
+
+  position: absolute;
+
+  left: -120px;
+  bottom: -180px;
+
+  border-radius: 50%;
+
+  background: rgba(80, 178, 72, 0.11);
+}
+
+
+.backgroundDecorationTwo {
+  width: 420px;
+  height: 420px;
+
+  position: absolute;
+
+  right: -160px;
+  top: -180px;
+
+  border-radius: 50%;
+
+  background: rgba(116, 195, 77, 0.1);
+}
+
+
+.mainContainer {
+  width: min(1440px, calc(100% - 50px));
+
+  min-height: 620px;
+
+  position: relative;
+  z-index: 2;
+
+  margin-inline: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(440px, 0.95fr)
+    minmax(590px, 1.05fr);
+
+  overflow: hidden;
+
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.65);
+
+  box-shadow:
+    0 18px 50px rgba(30, 91, 43, 0.08);
+}
+
+
+/* =========================================================
+   4. LEFT PANEL
+   ========================================================= */
+
+.leftPanel {
+  min-height: 620px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 38px 35px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.83),
+      rgba(225, 245, 223, 0.85)
+    );
+}
+
+
+.leftHeading {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+}
+
+
+.smallLeaf {
+  margin-top: 3px;
+
+  color: #0a963e;
+
+  transform: rotate(-20deg);
+}
+
+
+.leftHeading h1 {
+  margin: 0;
+
+  color: #10231a;
+
+  font-size: 39px;
+  line-height: 1.1;
+
+  font-weight: 900;
+}
+
+
+.leftHeading p {
+  margin: 12px 0 0;
+
+  color: #35483d;
+
+  font-size: 19px;
+  line-height: 1.45;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   5. BENEFIT CARDS
+   ========================================================= */
+
+.benefitList {
+  width: 285px;
+
+  position: relative;
+  z-index: 10;
+
+  margin-top: 28px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.benefitCard {
+  min-height: 61px;
+
+  padding: 9px 11px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  border: 1px solid #dce8df;
+
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  box-shadow:
+    0 4px 13px rgba(31, 71, 40, 0.07);
+}
+
+
+.benefitIcon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 9px;
+}
+
+
+.greenIcon {
+  background: #dff5e4;
+
+  color: #07903b;
+}
+
+
+.orangeIcon {
+  background: #fff0dd;
+
+  color: #f28d1a;
+}
+
+
+.blueIcon {
+  background: #e2f0ff;
+
+  color: #177bd7;
+}
+
+
+.redIcon {
+  background: #ffe5e5;
+
+  color: #ed4545;
+}
+
+
+.purpleIcon {
+  background: #eee6ff;
+
+  color: #7948d6;
+}
+
+
+.benefitCard strong,
+.benefitCard span {
+  display: block;
+}
+
+
+.benefitCard strong {
+  margin-bottom: 3px;
+
+  color: #193025;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+.benefitCard span {
+  color: #69776e;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   6. FARMER IMAGE
+   ========================================================= */
+
+.farmerImageWrapper {
+  width: 58%;
+  height: 69%;
+
+  position: absolute;
+
+  right: -3%;
+  bottom: 0;
+
+  overflow: hidden;
+
+  border-radius: 150px 0 0 0;
+}
+
+
+.farmerImage {
+  object-fit: cover;
+
+  object-position: center;
+}
+
+
+.leftQuote {
+  position: absolute;
+
+  right: 32px;
+  top: 135px;
+
+  z-index: 8;
+
+  color: #087b35;
+
+  transform: rotate(-9deg);
+
+  text-align: center;
+
+  font-size: 25px;
+  line-height: 1.07;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   7. RIGHT PANEL
+   ========================================================= */
+
+.rightPanel {
+  min-height: 620px;
+
+  padding: 34px 38px;
+
+  background: rgba(255, 255, 255, 0.95);
+}
+
+
+/* =========================================================
+   8. PROGRESS
+   ========================================================= */
+
+.progressSection {
+  width: 80%;
+
+  margin: 0 auto 34px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+
+.progressStep {
+  min-width: 90px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 7px;
+}
+
+
+.progressCircle {
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #edf0ee;
+
+  color: #6e7b73;
+
+  font-size: 12px;
+
+  font-weight: 800;
+}
+
+
+.progressActive {
+  background: #0c963e;
+
+  color: #ffffff;
+}
+
+
+.progressStep span {
+  color: #6f7973;
+
+  font-size: 10px;
+
+  white-space: nowrap;
+}
+
+
+.progressStep:first-child span {
+  color: #07883a;
+
+  font-weight: 700;
+}
+
+
+.progressLine {
+  height: 2px;
+
+  flex: 1;
+
+  margin-top: 15px;
+
+  background: #dfe5e1;
+}
+
+
+/* =========================================================
+   9. FORM HEADING
+   ========================================================= */
+
+.formHeading h2 {
+  margin: 0;
+
+  color: #173126;
+
+  font-size: 27px;
+
+  font-weight: 900;
+}
+
+
+.formHeading p {
+  margin: 7px 0 0;
+
+  color: #5e6c63;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   10. ROLE SELECTION
+   ========================================================= */
+
+.roleGrid {
+  margin-top: 20px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+
+.roleCard {
+  min-height: 200px;
+
+  position: relative;
+
+  padding: 21px 12px;
+
+  border: 1.5px solid #e3e8e4;
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  color: inherit;
+
+  text-align: center;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.roleCard:hover {
+  transform: translateY(-2px);
+
+  border-color: #74c992;
+
+  box-shadow:
+    0 7px 17px rgba(23, 91, 41, 0.09);
+}
+
+
+.roleSelected {
+  border-color: #16a34a;
+
+  background: #effaf2;
+
+  box-shadow:
+    0 5px 15px rgba(15, 145, 60, 0.08);
+}
+
+
+.selectedMark {
+  width: 25px;
+  height: 25px;
+
+  position: absolute;
+
+  right: 10px;
+  top: 10px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #13a143;
+
+  color: #ffffff;
+}
+
+
+.roleIcon {
+  width: 67px;
+  height: 67px;
+
+  margin: 0 auto 12px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+}
+
+
+.farmerRoleIcon {
+  background: #dcf6e4;
+
+  color: #07933d;
+}
+
+
+.expertRoleIcon {
+  background: #e4f1ff;
+
+  color: #187bd4;
+}
+
+
+.adminRoleIcon {
+  background: #fff0df;
+
+  color: #ed871e;
+}
+
+
+.roleCard h3 {
+  margin: 0;
+
+  color: #183025;
+
+  font-size: 16px;
+  line-height: 1.35;
+
+  font-weight: 900;
+}
+
+
+.roleCard p {
+  margin: 8px 0 0;
+
+  color: #69776e;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   11. INFORMATION MESSAGE
+   ========================================================= */
+
+.infoBox {
+  margin-top: 17px;
+
+  padding: 12px 14px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  border: 1px solid #dcebe0;
+
+  border-radius: 9px;
+
+  background: #f0faf3;
+}
+
+
+.infoBox svg {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  color: #078e3b;
+}
+
+
+.infoBox p {
+  margin: 0;
+
+  color: #53655b;
+
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   12. NEXT BUTTON
+   ========================================================= */
+
+.nextButton {
+  width: 100%;
+  min-height: 48px;
+
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #078b3b;
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+
+.nextButton:hover {
+  background: #067c34;
+}
+
+
+/* =========================================================
+   13. LOGIN TEXT
+   ========================================================= */
+
+.loginText {
+  margin-top: 13px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 5px;
+
+  color: #7b857f;
+
+  font-size: 10px;
+}
+
+
+.loginText button {
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: #078b3b;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   14. FOOTER
+   ========================================================= */
+
+.footer {
+  border-top: 1px solid #e8eee9;
+
+  background: #ffffff;
+}
+
+
+.footerInner {
+  width: min(1420px, calc(100% - 50px));
+
+  min-height: 115px;
+
+  margin-inline: auto;
+
+  padding-block: 19px;
+
+  display: grid;
+
+  grid-template-columns:
+    1.3fr
+    0.65fr
+    0.65fr
+    0.8fr
+    1.5fr;
+
+  gap: 22px;
+
+  align-items: start;
+}
+
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.footerLogo {
+  width: 170px;
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+.footerBrand span {
+  color: #66746b;
+
+  font-size: 9px;
+}
+
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.footerColumn strong {
+  margin-bottom: 4px;
+
+  color: #1a2c22;
+
+  font-size: 10px;
+}
+
+
+.footerColumn a {
+  color: #68756d;
+
+  text-decoration: none;
+
+  font-size: 8px;
+}
+
+
+.footerSocial {
+  display: flex;
+
+  gap: 6px;
+}
+
+
+.footerSocial span {
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #17372a;
+
+  color: #ffffff;
+
+  font-size: 8px;
+
+  font-weight: 800;
+}
+
+
+.newsletter strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #21342a;
+
+  font-size: 10px;
+}
+
+
+.newsletterForm {
+  display: flex;
+
+  gap: 8px;
+}
+
+
+.newsletterForm input {
+  min-width: 0;
+  min-height: 34px;
+
+  flex: 1;
+
+  padding-inline: 10px;
+
+  border: 1px solid #dce5df;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  font-size: 8px;
+}
+
+
+.newsletterForm button {
+  min-height: 34px;
+
+  padding-inline: 15px;
+
+  border: 0;
+
+  border-radius: 6px;
+
+  background: #098b3c;
+
+  color: #ffffff;
+
+  font-size: 8px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   15. SMALL LAPTOP
+   ========================================================= */
+
+@media (max-width: 1250px) {
+  .navLinks {
+    gap: 0;
+  }
+
+  .navItem {
+    padding-inline: 6px;
+
+    font-size: 11px;
+  }
+
+  .logo {
+    width: 165px;
+  }
+
+  .mainContainer {
+    grid-template-columns:
+      minmax(390px, 0.9fr)
+      minmax(540px, 1.1fr);
+  }
+
+  .leftHeading h1 {
+    font-size: 34px;
+  }
+
+  .farmerImageWrapper {
+    width: 60%;
+  }
+
+  .rightPanel {
+    padding-inline: 28px;
+  }
+}
+
+
+/* =========================================================
+   16. TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .navLinks {
+    display: none;
+  }
+
+  .mainContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .leftPanel {
+    min-height: 600px;
+  }
+
+  .rightPanel {
+    min-height: auto;
+  }
+
+  .footerInner {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .newsletter {
+    grid-column: span 2;
+  }
+}
+
+
+/* =========================================================
+   17. MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .navbarInner {
+    width: calc(100% - 22px);
+  }
+
+  .logo {
+    width: 145px;
+  }
+
+  .languageButton {
+    display: none;
+  }
+
+  .loginButton,
+  .registerButton {
+    min-height: 38px;
+
+    padding-inline: 10px;
+
+    font-size: 11px;
+  }
+
+  .registrationArea {
+    padding-block: 12px;
+  }
+
+  .mainContainer {
+    width: calc(100% - 20px);
+
+    border-radius: 12px;
+  }
+
+  .leftPanel {
+    min-height: 650px;
+
+    padding: 26px 20px;
+  }
+
+  .leftHeading h1 {
+    font-size: 31px;
+  }
+
+  .leftHeading p {
+    font-size: 16px;
+  }
+
+  .benefitList {
+    width: 100%;
+    max-width: 270px;
+  }
+
+  .farmerImageWrapper {
+    width: 75%;
+    height: 47%;
+  }
+
+  .leftQuote {
+    right: 15px;
+    top: 145px;
+
+    font-size: 19px;
+  }
+
+  .rightPanel {
+    padding: 25px 18px;
+  }
+
+  .progressSection {
+    width: 100%;
+  }
+
+  .progressStep {
+    min-width: 67px;
+  }
+
+  .progressStep span {
+    font-size: 8px;
+  }
+
+  .formHeading h2 {
+    font-size: 23px;
+  }
+
+  .roleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .roleCard {
+    min-height: 160px;
+  }
+
+  .footerInner {
+    width: calc(100% - 24px);
+
+    grid-template-columns: 1fr;
+  }
+
+  .newsletter {
+    grid-column: auto;
+  }
+}
