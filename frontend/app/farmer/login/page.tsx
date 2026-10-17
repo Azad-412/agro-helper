@@ -7,15 +7,17 @@
  * Route: /farmer/login
  * ============================================================
  *
+ * TEAM MEMBER 3 - FRONTEND/BACKEND INTEGRATION
+ *
  * Current behaviour:
- * - Farmer enters email and password.
- * - Basic browser validation is applied.
- * - Successful submit redirects to Farmer Dashboard.
+ * 1. Farmer enters email and password.
+ * 2. Frontend sends data to FastAPI POST /login.
+ * 3. FastAPI checks SQLite database.
+ * 4. Correct credentials -> Farmer Dashboard.
+ * 5. Wrong credentials -> Error message.
  *
- * Later this form will connect with the FastAPI authentication API.
- *
- * All CSS classes use the "farmer-login-" prefix so this page
- * does not interfere with existing Agro Helper pages.
+ * Backend:
+ * http://127.0.0.1:8000
  */
 
 import { FormEvent, useState } from "react";
@@ -48,41 +50,139 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 
+
+/**
+ * Backend API base URL.
+ *
+ * During local development:
+ * Frontend -> http://localhost:3000
+ * Backend  -> http://127.0.0.1:8000
+ */
+const API_BASE_URL = "http://127.0.0.1:8001";
+
+
 export default function FarmerLoginPage() {
   const router = useRouter();
 
-  // Login form values.
+  // ----------------------------------------------------------
+  // Form state
+  // ----------------------------------------------------------
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // Controls password visibility.
   const [showPassword, setShowPassword] = useState(false);
 
-  // Demo loading state for a more realistic login experience.
+  // Shows loading state while API request is running.
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Shows backend/login error to the farmer.
+  const [errorMessage, setErrorMessage] = useState("");
+
+
   /**
-   * Handles login form submission.
+   * ==========================================================
+   * HANDLE LOGIN
+   * ==========================================================
    *
-   * At this frontend stage we only validate that both fields
-   * contain values and then navigate to the farmer dashboard.
-   * Real authentication will later be handled by FastAPI.
+   * This function connects the Next.js frontend with
+   * Team Member 2's FastAPI backend.
    */
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
+    // Clear previous error message.
+    setErrorMessage("");
+
+    // Basic frontend validation.
     if (!email.trim() || !password.trim()) {
-      alert("অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড লিখুন।");
+      setErrorMessage(
+        "অনুগ্রহ করে ইমেইল এবং পাসওয়ার্ড লিখুন।"
+      );
       return;
     }
 
-    setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-    // Temporary frontend-only login flow.
-    setTimeout(() => {
+      /**
+       * Send login information to FastAPI.
+       *
+       * Backend endpoint:
+       * POST http://127.0.0.1:8000/login
+       */
+      const response = await fetch(
+        `${API_BASE_URL}/login`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            email: email.trim(),
+            password: password,
+          }),
+        }
+      );
+
+      /**
+       * Convert FastAPI response into JavaScript object.
+       */
+      const data = await response.json();
+
+      /**
+       * If backend returns an error such as:
+       * 401 Invalid email or password
+       */
+      if (!response.ok) {
+        setErrorMessage(
+          data.detail ||
+            "ইমেইল অথবা পাসওয়ার্ড সঠিক নয়।"
+        );
+
+        return;
+      }
+
+      /**
+       * Login successful.
+       *
+       * Save farmer information temporarily in browser.
+       * Later this can be replaced with JWT/session handling.
+       */
+      if (data.farmer) {
+        localStorage.setItem(
+          "agroFarmer",
+          JSON.stringify(data.farmer)
+        );
+      }
+
+      /**
+       * Redirect authenticated farmer to dashboard.
+       */
       router.push("/farmer/dashboard");
-    }, 500);
+    } catch (error) {
+      /**
+       * This usually happens when:
+       * - Backend server is not running.
+       * - Network connection failed.
+       * - CORS configuration is incorrect.
+       */
+
+      console.error("Login API error:", error);
+
+      setErrorMessage(
+        "Backend server-এর সাথে সংযোগ করা যাচ্ছে না। Server চালু আছে কিনা পরীক্ষা করুন।"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   return (
     <>
@@ -92,7 +192,10 @@ export default function FarmerLoginPage() {
         ===================================================== */}
         <header className="farmer-login-topbar">
           <div className="farmer-login-topbar-inner">
-            <Link href="/" className="farmer-login-logo-link">
+            <Link
+              href="/"
+              className="farmer-login-logo-link"
+            >
               <Image
                 src="/images/logo/aglogo.png"
                 alt="Agro Helper"
@@ -187,8 +290,9 @@ export default function FarmerLoginPage() {
           </div>
         </header>
 
+
         {/* =====================================================
-            LOGIN HERO
+            LOGIN MAIN AREA
         ===================================================== */}
         <section className="farmer-login-main">
           {/* ===================================================
@@ -208,8 +312,9 @@ export default function FarmerLoginPage() {
               </h1>
 
               <p>
-                আপনার ফসলের সমস্যা জানান, AI সহায়তা নিন এবং
-                অভিজ্ঞ কৃষি বিশেষজ্ঞদের কাছ থেকে সঠিক পরামর্শ পান।
+                আপনার ফসলের সমস্যা জানান, AI সহায়তা নিন
+                এবং অভিজ্ঞ কৃষি বিশেষজ্ঞদের কাছ থেকে
+                সঠিক পরামর্শ পান।
               </p>
             </div>
 
@@ -225,7 +330,7 @@ export default function FarmerLoginPage() {
               />
             </div>
 
-            {/* Floating feature cards */}
+            {/* Feature Cards */}
             <div className="farmer-login-feature-list">
               <article className="farmer-login-feature-card">
                 <div className="farmer-login-feature-icon">
@@ -233,8 +338,13 @@ export default function FarmerLoginPage() {
                 </div>
 
                 <div>
-                  <strong>ফসলের রোগ শনাক্তকরণ</strong>
-                  <span>ছবি দিয়ে AI প্রাথমিক বিশ্লেষণ পান</span>
+                  <strong>
+                    ফসলের রোগ শনাক্তকরণ
+                  </strong>
+
+                  <span>
+                    ছবি দিয়ে AI প্রাথমিক বিশ্লেষণ পান
+                  </span>
                 </div>
               </article>
 
@@ -244,8 +354,13 @@ export default function FarmerLoginPage() {
                 </div>
 
                 <div>
-                  <strong>বিশেষজ্ঞের পরামর্শ</strong>
-                  <span>অভিজ্ঞ কৃষি বিশেষজ্ঞের সহায়তা নিন</span>
+                  <strong>
+                    বিশেষজ্ঞের পরামর্শ
+                  </strong>
+
+                  <span>
+                    অভিজ্ঞ কৃষি বিশেষজ্ঞের সহায়তা নিন
+                  </span>
                 </div>
               </article>
 
@@ -255,12 +370,18 @@ export default function FarmerLoginPage() {
                 </div>
 
                 <div>
-                  <strong>নিরাপদ অ্যাকাউন্ট</strong>
-                  <span>আপনার তথ্য সুরক্ষিতভাবে সংরক্ষিত থাকবে</span>
+                  <strong>
+                    নিরাপদ অ্যাকাউন্ট
+                  </strong>
+
+                  <span>
+                    আপনার তথ্য সুরক্ষিতভাবে সংরক্ষিত থাকবে
+                  </span>
                 </div>
               </article>
             </div>
           </div>
+
 
           {/* ===================================================
               RIGHT LOGIN FORM
@@ -272,18 +393,23 @@ export default function FarmerLoginPage() {
                   <Leaf size={30} />
                 </div>
 
-                <h2>কৃষক লগইন</h2>
+                <h2>
+                  কৃষক লগইন
+                </h2>
 
                 <p>
                   আপনার Agro Helper অ্যাকাউন্টে প্রবেশ করুন
                 </p>
               </div>
 
+
               <form
                 className="farmer-login-form"
                 onSubmit={handleLogin}
               >
-                {/* Email */}
+                {/* =================================================
+                    EMAIL FIELD
+                ================================================= */}
                 <div className="farmer-login-field">
                   <label htmlFor="email">
                     ইমেইল ঠিকানা <span>*</span>
@@ -307,7 +433,10 @@ export default function FarmerLoginPage() {
                   </div>
                 </div>
 
-                {/* Password */}
+
+                {/* =================================================
+                    PASSWORD FIELD
+                ================================================= */}
                 <div className="farmer-login-field">
                   <label htmlFor="password">
                     পাসওয়ার্ড <span>*</span>
@@ -320,7 +449,9 @@ export default function FarmerLoginPage() {
                       id="password"
                       name="password"
                       type={
-                        showPassword ? "text" : "password"
+                        showPassword
+                          ? "text"
+                          : "password"
                       }
                       value={password}
                       onChange={(event) =>
@@ -328,7 +459,6 @@ export default function FarmerLoginPage() {
                       }
                       placeholder="আপনার পাসওয়ার্ড লিখুন"
                       autoComplete="current-password"
-                      minLength={6}
                       required
                     />
 
@@ -351,11 +481,26 @@ export default function FarmerLoginPage() {
                   </div>
                 </div>
 
-                {/* Remember + Forgot password */}
+
+                {/* =================================================
+                    ERROR MESSAGE
+                ================================================= */}
+                {errorMessage && (
+                  <div className="farmer-login-error">
+                    {errorMessage}
+                  </div>
+                )}
+
+
+                {/* =================================================
+                    REMEMBER / FORGOT PASSWORD
+                ================================================= */}
                 <div className="farmer-login-options">
                   <label className="farmer-login-remember">
                     <input type="checkbox" />
+
                     <span />
+
                     আমাকে মনে রাখুন
                   </label>
 
@@ -367,14 +512,17 @@ export default function FarmerLoginPage() {
                   </Link>
                 </div>
 
-                {/* Login Button */}
+
+                {/* =================================================
+                    LOGIN BUTTON
+                ================================================= */}
                 <button
                   type="submit"
                   className="farmer-login-submit"
                   disabled={isSubmitting}
                 >
                   {isSubmitting
-                    ? "লগইন হচ্ছে..."
+                    ? "লগইন যাচাই হচ্ছে..."
                     : "লগইন করুন"}
 
                   {!isSubmitting && (
@@ -382,7 +530,10 @@ export default function FarmerLoginPage() {
                   )}
                 </button>
 
-                {/* Registration link */}
+
+                {/* =================================================
+                    REGISTER LINK
+                ================================================= */}
                 <div className="farmer-login-register-message">
                   <span>
                     এখনো Agro Helper অ্যাকাউন্ট নেই?
@@ -394,7 +545,8 @@ export default function FarmerLoginPage() {
                 </div>
               </form>
 
-              {/* Security note */}
+
+              {/* Security Note */}
               <div className="farmer-login-security-note">
                 <ShieldCheck size={19} />
 
@@ -404,7 +556,8 @@ export default function FarmerLoginPage() {
                   </strong>
 
                   <span>
-                    আপনার ব্যক্তিগত তথ্য নিরাপদ ও গোপন রাখা হবে।
+                    আপনার ব্যক্তিগত তথ্য নিরাপদ ও গোপন
+                    রাখা হবে।
                   </span>
                 </div>
               </div>
@@ -412,8 +565,9 @@ export default function FarmerLoginPage() {
           </div>
         </section>
 
+
         {/* =====================================================
-            COMPACT FOOTER
+            FOOTER
         ===================================================== */}
         <footer className="farmer-login-footer">
           <div className="farmer-login-footer-inner">
@@ -434,9 +588,18 @@ export default function FarmerLoginPage() {
             <div className="farmer-login-footer-links">
               <strong>দ্রুত লিংক</strong>
 
-              <Link href="/">হোম</Link>
-              <Link href="/#services">আমাদের সেবা</Link>
-              <Link href="/#crops">ফসলের তালিকা</Link>
+              <Link href="/">
+                হোম
+              </Link>
+
+              <Link href="/#services">
+                আমাদের সেবা
+              </Link>
+
+              <Link href="/#crops">
+                ফসলের তালিকা
+              </Link>
+
               <Link href="/#how-it-works">
                 কিভাবে কাজ করে
               </Link>
@@ -445,20 +608,37 @@ export default function FarmerLoginPage() {
             <div className="farmer-login-footer-links">
               <strong>সহায়তা</strong>
 
-              <a href="#">সাধারণ প্রশ্ন</a>
-              <a href="#">গোপনীয়তা নীতি</a>
-              <a href="#">যোগাযোগ</a>
+              <a href="#">
+                সাধারণ প্রশ্ন
+              </a>
+
+              <a href="#">
+                গোপনীয়তা নীতি
+              </a>
+
+              <a href="#">
+                যোগাযোগ
+              </a>
 
               <div className="farmer-login-social-icons">
-                <a href="#" aria-label="Facebook">
+                <a
+                  href="#"
+                  aria-label="Facebook"
+                >
                   <FaFacebookF />
                 </a>
 
-                <a href="#" aria-label="YouTube">
+                <a
+                  href="#"
+                  aria-label="YouTube"
+                >
                   <FaYoutube />
                 </a>
 
-                <a href="#" aria-label="LinkedIn">
+                <a
+                  href="#"
+                  aria-label="LinkedIn"
+                >
                   <FaLinkedinIn />
                 </a>
               </div>
@@ -486,8 +666,9 @@ export default function FarmerLoginPage() {
         </footer>
       </main>
 
+
       {/* =====================================================
-          PAGE-SCOPED CSS
+          PAGE CSS
       ===================================================== */}
       <style jsx global>{`
         .farmer-login-page {
@@ -509,6 +690,7 @@ export default function FarmerLoginPage() {
         .farmer-login-page input {
           font: inherit;
         }
+
 
         /* =====================================================
            NAVBAR
@@ -620,6 +802,7 @@ export default function FarmerLoginPage() {
           color: #ffffff;
         }
 
+
         /* =====================================================
            MAIN LOGIN AREA
         ===================================================== */
@@ -638,6 +821,7 @@ export default function FarmerLoginPage() {
             ),
             #effaf5;
         }
+
 
         /* =====================================================
            LEFT VISUAL
@@ -761,6 +945,7 @@ export default function FarmerLoginPage() {
           font-size: 11px;
           line-height: 1.4;
         }
+
 
         /* =====================================================
            RIGHT LOGIN CARD
@@ -886,7 +1071,27 @@ export default function FarmerLoginPage() {
           cursor: pointer;
         }
 
-        /* Remember me + Forgot password */
+
+        /* =====================================================
+           LOGIN ERROR MESSAGE
+        ===================================================== */
+
+        .farmer-login-error {
+          margin: -5px 0 17px;
+          padding: 11px 13px;
+          border: 1px solid #f3c6c6;
+          border-radius: 8px;
+          background: #fff1f1;
+          color: #c52d2d;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           OPTIONS
+        ===================================================== */
 
         .farmer-login-options {
           margin-top: -3px;
@@ -946,7 +1151,10 @@ export default function FarmerLoginPage() {
           font-weight: 800;
         }
 
-        /* Login button */
+
+        /* =====================================================
+           LOGIN BUTTON
+        ===================================================== */
 
         .farmer-login-submit {
           width: 100%;
@@ -974,11 +1182,14 @@ export default function FarmerLoginPage() {
 
         .farmer-login-submit:disabled {
           cursor: wait;
-          opacity: 0.75;
+          opacity: 0.7;
           transform: none;
         }
 
-        /* Registration message */
+
+        /* =====================================================
+           REGISTER MESSAGE
+        ===================================================== */
 
         .farmer-login-register-message {
           margin-top: 22px;
@@ -1002,7 +1213,10 @@ export default function FarmerLoginPage() {
           font-weight: 900;
         }
 
-        /* Security information */
+
+        /* =====================================================
+           SECURITY NOTE
+        ===================================================== */
 
         .farmer-login-security-note {
           margin-top: 22px;
@@ -1037,6 +1251,7 @@ export default function FarmerLoginPage() {
           font-size: 10px;
           line-height: 1.4;
         }
+
 
         /* =====================================================
            FOOTER
@@ -1162,6 +1377,7 @@ export default function FarmerLoginPage() {
           font-weight: 800;
         }
 
+
         /* =====================================================
            SMALL LAPTOP
         ===================================================== */
@@ -1212,6 +1428,7 @@ export default function FarmerLoginPage() {
           }
         }
 
+
         /* =====================================================
            TABLET
         ===================================================== */
@@ -1234,6 +1451,7 @@ export default function FarmerLoginPage() {
             padding: 45px 25px;
           }
         }
+
 
         /* =====================================================
            MOBILE
