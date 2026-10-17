@@ -13,6 +13,7 @@
  * - Services
  * - How It Works
  * - Supported Crops
+ * - Expert Section
  * - Daily Agricultural Tip
  * - Impact
  * - Footer
@@ -37,7 +38,6 @@ import {
   Leaf,
   MessageCircle,
   Phone,
-  Search,
   ShieldCheck,
   Sprout,
   User,
@@ -141,12 +141,13 @@ export default function HomePage() {
               বাংলা
             </button>
 
-            <button
-              type="button"
+            {/* Login now opens Farmer Login page */}
+            <Link
+              href="/farmer/login"
               className="home-login-btn"
             >
               লগইন
-            </button>
+            </Link>
 
             <Link
               href="/farmer/register"
@@ -200,12 +201,13 @@ export default function HomePage() {
                 <ArrowRight size={18} />
               </Link>
 
-              <button
-                type="button"
+              {/* Hero login now opens Farmer Login page */}
+              <Link
+                href="/farmer/login"
                 className="hero-login-button"
               >
                 লগইন করুন
-              </button>
+              </Link>
             </div>
 
             <button
